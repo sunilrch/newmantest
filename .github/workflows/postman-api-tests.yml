@@ -50,9 +50,19 @@ jobs:
       - name: Send HTML report link to Slack via Webhook
         run: |
           # The URL for the raw HTML file
-          REPORT_URL="https://raw.githubusercontent.com/sunilrch/newmantest/main/runreport.html"  # Update this with the correct file URL if necessary
+          REPORT_URL="https://raw.githubusercontent.com/sunilrch/newmantest/main/runreport.html"  # Ensure this is the raw file URL
 
-          # Send message to Slack channel via Incoming Webhook
+          # Send message to Slack channel via Incoming Webhook with correct payload format
           curl -X POST -H 'Content-type: application/json' \
-          --data '{"text":"The Newman API test report is ready! Click here to view the report: '"$REPORT_URL"'}' \
+          --data '{
+            "text": "The Newman API test report is ready!",
+            "attachments": [
+              {
+                "fallback": "Click the link to view the test report.",
+                "pretext": "Test report for the latest run is available:",
+                "text": "<'"$REPORT_URL"'>",
+                "color": "#36a64f"
+              }
+            ]
+          }' \
           ${{ secrets.SLACK_WEBHOOK_URL }}
