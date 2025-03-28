@@ -9,7 +9,7 @@ jobs:
     name: "Run tests"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v2  # Ensures the repository is checked out
 
       - uses: actions/setup-node@v2
         with:
@@ -23,7 +23,7 @@ jobs:
 
       - name: "Run tests"
         run: |
-          newman run NewmanDemo.postman_collection.json \
+          newman run ./tests/NewmanDemo.postman_collection.json \
             -e ./tests/ReqResDev.postman_environment.json \
             -r htmlextra \
             --reporter-htmlextra-export ./runreport.html \
