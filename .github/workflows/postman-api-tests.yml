@@ -42,3 +42,17 @@ jobs:
           git push origin HEAD:main  # Or use your default branch name here (e.g., 'main' or 'master')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  slack_notification:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Send HTML report link to Slack via Webhook
+        run: |
+          # The URL for the raw HTML file
+          REPORT_URL="https://raw.githubusercontent.com/sunilrch/newmantest/main/runreport.html"  # Update this with the correct file URL if necessary
+
+          # Send message to Slack channel via Incoming Webhook
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{"text":"The Newman API test report is ready! Click here to view the report: '"$REPORT_URL"'}' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
