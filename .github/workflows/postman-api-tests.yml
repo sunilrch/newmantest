@@ -9,7 +9,7 @@ jobs:
     name: "Run tests"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4  # Ensures the repository is checked out
+      - uses: actions/checkout@v2  # Ensures the repository is checked out
 
       - uses: actions/setup-node@v2
         with:
