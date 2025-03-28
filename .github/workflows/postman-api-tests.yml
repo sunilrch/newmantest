@@ -31,8 +31,8 @@ jobs:
 
       - name: "Commit and push the report to the repository"
         run: |
-          git config --global user.name "sunil chaudhari"
-          git config --global user.email "sunilchaudhari@hotmail.com"
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
           git add runreport.html
           git commit -m "Add Newman test report"
           git push origin HEAD:main  # Or use your default branch name here (e.g., 'main' or 'master')
