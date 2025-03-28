@@ -5,9 +5,6 @@ on:
 
 jobs:
   test:
-    defaults:
-      run:
-        working-directory: ./tests
     environment: staging
     name: "Run tests"
     runs-on: ubuntu-latest
@@ -24,16 +21,13 @@ jobs:
       - name: "Install newman reporter"
         run: "npm install -g newman-reporter-htmlextra"
 
-      # - name: "List contents of the tests directory before running tests"
-      #   run: ls -la ./tests
+      - name: "Create reports folder"
+        run: mkdir -p ./reports
 
       - name: "Run tests"
         run: |
           newman run NewmanDemo.postman_collection.json \
             -e ReqResDev.postman_environment.json \
             -r htmlextra \
-            --reporter-htmlextra-export runreport.html \
+            --reporter-htmlextra-export ./reports/runreport.html \
             --reporter-htmlextra-darkTheme
-
-      # - name: "List contents of the tests directory after running tests"
-      #   run: ls -la ./tests
