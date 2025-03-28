@@ -24,18 +24,17 @@ jobs:
         run: "npm install -g newman-reporter-htmlextra"
       - 
         name: "Run tests"
-        run: "newman run NewmanDemo.postman_collection.json -e ReqResDev.postman_environment.json  
-        -r htmlextra --reporter-htmlextra-export htmlreport.html --reporter-htmlextra-darkTheme  > runreport1.html"
+        run: "newman run NewmanDemo.postman_collection.json -e ReqResDev.postman_environment.json -r htmlextra --reporter-htmlextra-export htmlreport.html --reporter-htmlextra-darkTheme  > ./tests/runreport1.html"
   
-      - name: "Commit and push test results"
-        run: |
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          git add runreport1.html
-          git commit -m "Add test report"
-          git push origin main
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
+      # - name: "Commit and push test results"
+      #   run: |
+      #     git config --global user.name "GitHub Actions"
+      #     git config --global user.email "actions@github.com"
+      #     git add runreport1.html
+      #     git commit -m "Add test report"
+      #     git push origin main
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}      
       
       # - name: Publish report
       #   uses: MeilCli/slack-upload-file@v1
