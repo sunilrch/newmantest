@@ -21,13 +21,10 @@ jobs:
       - name: "Install newman reporter"
         run: "npm install -g newman-reporter-htmlextra"
 
-      - name: "Create reports folder"
-        run: mkdir -p ./reports
-
       - name: "Run tests"
         run: |
           newman run NewmanDemo.postman_collection.json \
             -e ReqResDev.postman_environment.json \
             -r htmlextra \
-            --reporter-htmlextra-export ./reports/runreport.html \
+            --reporter-htmlextra-export ./runreport.html \
             --reporter-htmlextra-darkTheme
