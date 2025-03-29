@@ -1,0 +1,68 @@
+name: Newtest job
+
+on:
+  workflow_dispatch:
+
+jobs:
+  test:
+    environment: staging
+    name: "Run tests"
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2  # Ensures the repository is checked out
+
+      - name: "Update CA certificates"
+        run: |
+          sudo apt-get update && sudo apt-get install -y ca-certificates
+
+      - uses: actions/setup-node@v2
+        with:
+          node-version: "16"
+        
+      - name: "Install newman"
+        run: "npm install -g newman"
+
+      - name: "Install newman reporter"
+        run: "npm install -g newman-reporter-htmlextra"
+
+      - name: "Run tests"
+        run: |
+          newman run ./tests/NewmanDemo.postman_collection.json \
+            -e ./tests/ReqResDev.postman_environment.json \
+            -r htmlextra \
+            --reporter-htmlextra-export ./runreport.html \
+            --reporter-htmlextra-darkTheme
+
+      - name: "Commit and push the report to the repository"
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@github.com"
+          git add runreport.html
+          git commit -m "Add Newman test report"
+          git push origin HEAD:main  # Or use your default branch name here (e.g., 'main' or 'master')
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  slack_notification:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Send HTML report link to Slack via Webhook
+        run: |
+          # The URL for the raw HTML file
+          REPORT_URL="https://raw.githubusercontent.com/sunilrch/newmantest/main/runreport.html"  # Ensure this is the raw file URL
+
+          # Send message to Slack channel via Incoming Webhook with correct payload format
+          curl -X POST -H 'Content-type: application/json' \
+          --data '{
+            "text": "The Newman API test report is ready!",
+            "attachments": [
+              {
+                "fallback": "Click the link to view the test report.",
+                "pretext": "Test report for the latest run is available:",
+                "text": "<'"$REPORT_URL"'>",
+                "color": "#36a64f"
+              }
+            ]
+          }' \
+          ${{ secrets.SLACK_WEBHOOK_URL }}
