@@ -2,6 +2,7 @@ name: Newtest job
 
 on:
   workflow_dispatch:
+  workflow_call:
 
 jobs:
   test:
