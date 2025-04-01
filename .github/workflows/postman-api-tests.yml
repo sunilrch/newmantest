@@ -15,7 +15,7 @@ jobs:
         run: |
           sudo apt-get update && sudo apt-get install -y ca-certificates
 
-      - uses: actions/setup-node@v2
+      - uses: lmigtech/internal-actions/actions/setup-node@v0
         with:
           node-version: "16"
         
