@@ -28,20 +28,20 @@ jobs:
       - name: "Run tests"
         run: |
           newman run ./tests/NewmanDemo.postman_collection.json \
-            -e ./tests/ReqResDev.postman_environment.json \
+            # -e ./tests/ReqResDev.postman_environment.json \
             -r htmlextra \
             --reporter-htmlextra-export ./runreport.html \
             --reporter-htmlextra-darkTheme
 
-      - name: "Commit and push the report to the repository"
-        run: |
-          git config --global user.name "github-actions"
-          git config --global user.email "github-actions@github.com"
-          git add runreport.html
-          git commit -m "Add Newman test report"
-          git push origin HEAD:main  # Or use your default branch name here (e.g., 'main' or 'master')
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      # - name: "Commit and push the report to the repository"
+      #   run: |
+      #     git config --global user.name "github-actions"
+      #     git config --global user.email "github-actions@github.com"
+      #     git add runreport.html
+      #     git commit -m "Add Newman test report"
+      #     git push origin HEAD:main  # Or use your default branch name here (e.g., 'main' or 'master')
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
   slack_notification:
     runs-on: ubuntu-latest
