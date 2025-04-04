@@ -29,10 +29,10 @@ jobs:
       - name: "Run tests"
         run: |
           newman run ./tests/NewmanDemo.postman_collection.json \
-            -e ./tests/ReqResDev.postman_environment.json \
-            -r htmlextra \
-            --reporter-htmlextra-export ./runreport.html \
-            --reporter-htmlextra-darkTheme
+            -e ./tests/ReqResDev.postman_environment.json 
+            # -r htmlextra \
+            # --reporter-htmlextra-export ./runreport.html \
+            # --reporter-htmlextra-darkTheme
 
       - name: "Commit and push the report to the repository"
         run: |
