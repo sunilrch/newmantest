@@ -33,6 +33,11 @@ jobs:
             -r htmlextra \
             --reporter-htmlextra-export ./tests/runreport.html \
             --reporter-htmlextra-darkTheme
+      - name: "Upload Newman Test Report as Artifact"
+        uses: actions/upload-artifact@v4
+        with:
+          name: newman-report
+          path: ./tests/runreport.html
 
       - name: "Commit and push the report to the repository"
         run: |
