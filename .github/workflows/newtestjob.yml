@@ -29,6 +29,7 @@ jobs:
       - name: "Run tests"
         run: |
           newman run ./tests/NewmanDemo.postman_collection.json \
+            -e ./tests/ReqResDev.postman_environment.json \
             -r htmlextra \
             --reporter-htmlextra-export ./tests/runreport.html \
             --reporter-htmlextra-darkTheme
