@@ -27,9 +27,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{hostname}}/api/users?page=2",
+					"raw": "https://reqres.in/api/users?page=2",
 					"host": [
-						"{{hostname}}"
+						"https://reqres.in"
 					],
 					"path": [
 						"api",
@@ -66,9 +66,9 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "{{hostname}}/api/users/2",
+					"raw": "https://reqres.in/api/users/2",
 					"host": [
-						"{{hostname}}"
+						"https://reqres.in"
 					],
 					"path": [
 						"api",
@@ -116,9 +116,9 @@
 					}
 				},
 				"url": {
-					"raw": "{{hostname}}/api/users",
+					"raw": "https://reqres.in/api/users",
 					"host": [
-						"{{hostname}}"
+						"https://reqres.in"
 					],
 					"path": [
 						"api",
@@ -147,9 +147,9 @@
 				"method": "DELETE",
 				"header": [],
 				"url": {
-					"raw": "{{hostname}}/api/users/2",
+					"raw": "https://reqres.in/api/users/2",
 					"host": [
-						"{{hostname}}"
+						"https://reqres.in"
 					],
 					"path": [
 						"api",
