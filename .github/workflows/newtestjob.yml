@@ -2,7 +2,7 @@ name: Newtest job
 
 on:
   workflow_dispatch:
-  workflow_call:mkdir TestArtifact
+  workflow_call:
 
 jobs:
   test:
