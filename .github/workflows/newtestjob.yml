@@ -10,17 +10,17 @@ jobs:
     name: "Run tests"
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4 
+      - uses: actions/checkout@v4
          
       - uses: actions/setup-node@v4
         with:
           node-version: "16"
         
       - name: "Install newman"
-        run: "npm install -g newman"
+        run: npm install -g newman
 
       - name: "Install newman reporter"
-        run: "npm install -g newman-reporter-htmlextra"
+        run: npm install -g newman-reporter-htmlextra
 
       - name: "Run tests"
         run: |
@@ -29,41 +29,35 @@ jobs:
             -r htmlextra \
             --reporter-htmlextra-export ./tests/runreport.html \
             --reporter-htmlextra-darkTheme
-            
+
+      - name: "Upload test report as artifact"
+        uses: actions/upload-artifact@v3
+        with:
+          name: newman-html-report
+          path: ./tests/runreport.html
 
       - name: "Commit and push the report to the repository"
         run: |
           git config --global user.name "sunilrch"
           git config --global user.email "sunilchaudhari2004@hotmail.com"
+          git pull origin main --rebase  # Ensure up-to-date before push
           git add ./tests/runreport.html
-          git commit -m "Add Newman test report"
-          git push origin HEAD:main  # Or use your default branch name here (e.g., 'main' or 'master')
+          git commit -m "Add Newman test report" || echo "No changes to commit"
+          git push origin HEAD:main
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: "Download test report"
-        uses: actions/download-artifact@v3
-        with:
-          name: newman-html-report
-          path: downloaded-report
 
-
-  slack_notification:
-    runs-on: ubuntu-latest
-    needs: test
-    steps:
-      - name: Send HTML report link to Slack via Webhook
+      - name: "Send HTML report link to Slack via Webhook"
         run: |
-          # The URL for the raw HTML file
-          REPORT_URL="https://raw.githubusercontent.com/sunilrch/newmantest/main/runreport.html"  # Ensure this is the raw file URL
+          REPORT_URL="https://raw.githubusercontent.com/sunilrch/newmantest/main/tests/runreport.html"
 
-          # Send message to Slack channel via Incoming Webhook with correct payload format
           curl -X POST -H 'Content-type: application/json' \
           --data '{
-            "text": "The Newman API test report is ready!",
+            "text": "🧪 The Newman API test report is ready!",
             "attachments": [
               {
                 "fallback": "Click the link to view the test report.",
-                "pretext": "Test report for the latest run is available:",
+                "pretext": "Test report for the latest run:",
                 "text": "<'"$REPORT_URL"'>",
                 "color": "#36a64f"
               }
