@@ -40,6 +40,12 @@ jobs:
           git push origin HEAD:main  # Or use your default branch name here (e.g., 'main' or 'master')
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: "Download test report"
+        uses: actions/download-artifact@v3
+        with:
+          name: newman-html-report
+          path: downloaded-report
+
 
   slack_notification:
     runs-on: ubuntu-latest
