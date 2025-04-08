@@ -31,7 +31,7 @@ jobs:
             --reporter-htmlextra-darkTheme
             
       - name: "Upload test report as artifact"
-        uses: actions/upload-artifact@v3
+        uses: actions/download-artifact@v3
         with:
           name: newman-html-report
           path: ./tests/runreport.html
