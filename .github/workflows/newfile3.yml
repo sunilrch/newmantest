@@ -35,3 +35,11 @@ jobs:
         with:
           name: newman-report
           path: ./tests/runreport.html
+
+      - name: Notify Slack (Success)
+        run: |
+          curl -X POST -H 'Content-type: application/json' --data "{
+            \"text\": \"✅ Deployment to *prod* succeeded!\n🛠️ Build Number: $BUILD_NUMBER\",
+            \"username\": \"CI Bot\",
+            \"icon_emoji\": \":robot_face:\"
+          }" ${{ secrets.SLACK_WEBHOOK_URL }}
